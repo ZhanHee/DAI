@@ -181,17 +181,16 @@ public class Produit {
     public String toString() {
         return "Produit{" +
                 "idPro=" + idPro +
-                ", libellePro='" + libellePro + '\'' +
-                ", descriptionP='" + descriptionP + '\'' +
-                ", prixUnitaire=" + prixUnitaire +
-                ", prixAuKg=" + prixAuKg +
-                ", nutrisScore='" + nutrisScore + '\'' +
-                ", poids=" + poids +
-                ", conditionnement='" + conditionnement + '\'' +
-                ", bio=" + bio +
-                ", marque='" + marque + '\'' +
                 ", imageURL='" + imageURL + '\'' +
-                ", categorie=" + categorie +
+                ", marque='" + marque + '\'' +
+                ", bio=" + bio +
+                ", conditionnement='" + conditionnement + '\'' +
+                ", poids=" + poids +
+                ", nutrisScore='" + nutrisScore + '\'' +
+                ", prixAuKg=" + prixAuKg +
+                ", prixUnitaire=" + prixUnitaire +
+                ", descriptionP='" + descriptionP + '\'' +
+                ", libellePro='" + libellePro + '\'' +
                 '}';
     }
 }
