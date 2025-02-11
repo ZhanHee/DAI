@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="lance">
+    <output-path>$PROJECT_DIR$/out/artifacts/lance</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="hibernate-maven-project/web/Web" />
+    </root>
+  </artifact>
+</component>
