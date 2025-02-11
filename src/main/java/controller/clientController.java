@@ -1,6 +1,8 @@
 package controller;
 
-public class clientController {
+import javax.servlet.http.HttpServlet;
+
+public class ClientController extends HttpServlet {
 
 
 }

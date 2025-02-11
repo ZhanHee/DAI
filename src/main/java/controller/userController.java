@@ -6,12 +6,13 @@ import metier.Utilisateur;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/user")
-public class userController {
+public class UserController extends HttpServlet {
     private static final long seralVersionUID = 1L;
     private UtilisateurDao utilisateurDao;
 
