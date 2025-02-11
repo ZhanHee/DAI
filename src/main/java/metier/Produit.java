@@ -1,8 +1,6 @@
 package metier;
 
-import jakarta.persistence.*;
-import metier.Categorie;
-
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity

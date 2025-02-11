@@ -1,8 +1,10 @@
 package metier;
 
-import jakarta.persistence.*;
 
+
+import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 @Table(name = "Panier")
 public class Panier {

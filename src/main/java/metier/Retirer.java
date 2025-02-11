@@ -1,9 +1,11 @@
 package metier;
-import jakarta.persistence.*;
-import metier.Client;
-import metier.Commande;
-import metier.Magasin;
 
+import javax.persistence.*;
+import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 @Entity
