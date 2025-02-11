@@ -16,7 +16,7 @@ public class Composer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPanier;
 
-    private String quantiteP;
+    private int quantiteP;
 
     @ManyToOne
     @JoinColumn(name = "idPro", referencedColumnName = "IdPro", insertable = false, updatable = false)
@@ -29,7 +29,7 @@ public class Composer {
     public Composer() {
     }
 
-    public Composer(int idPro, int idPanier, String quantiteP, Produit produit, Panier panier) {
+    public Composer(int idPro, int idPanier, int quantiteP, Produit produit, Panier panier) {
         this.idPro = idPro;
         this.idPanier = idPanier;
         this.quantiteP = quantiteP;
@@ -54,11 +54,11 @@ public class Composer {
         this.idPanier = idPanier;
     }
 
-    public String getQuantiteP() {
+    public int getQuantiteP() {
         return quantiteP;
     }
 
-    public void setQuantiteP(String quantiteP) {
+    public void setQuantiteP(int quantiteP) {
         this.quantiteP = quantiteP;
     }
 
