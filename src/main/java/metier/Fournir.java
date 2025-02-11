@@ -1,3 +1,5 @@
+package metier;
+
 import metier.FournirID;
 
 import metier.Magasin;
