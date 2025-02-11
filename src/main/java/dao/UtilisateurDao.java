@@ -2,12 +2,29 @@ package dao;
 
 import metier.Utilisateur;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
-public class utilisateurDao {
+public class UtilisateurDao {
 
-    public Utilisateur findByEmail(String email){
+    public static boolean registerUtilisateur(Utilisateur newUser) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(newUser);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static Utilisateur findByEmail(String email){
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE emailUser = :email", Utilisateur.class);
             query.setParameter("email", email);
@@ -17,7 +34,7 @@ public class utilisateurDao {
             return null;
         }
     }
-    public Utilisateur verifierUtilisateur(String email, String password) {
+    public static Utilisateur verifierUtilisateur(String email, String password) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Utilisateur> query = session.createQuery("FROM Utilisateur WHERE emailUser = :email AND motPasse = :password", Utilisateur.class);
             query.setParameter("email", email);
