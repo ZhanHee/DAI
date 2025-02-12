@@ -41,15 +41,15 @@
 
                     <!-- Liste de produits -->
                     <%
-                        // 获取产品列表
-                        List<Composer> listeProduit = (List<Composer>) request.getAttribute("listeProduit");
+                        // 获取产品和数量列表
+                        List<Map<String, Object>> listeProduit = (List<Map<String, Object>>) request.getAttribute("listeProduit");
                         Panier panier = (Panier) request.getAttribute("panier");
 
-                        if (panier != null && listeProduit != null && !listeProduit.isEmpty()) {
+                        if (listeProduit != null && !listeProduit.isEmpty()) {
                             // 遍历购物车中的所有商品
-                            for (int i = 0; i < listeProduit.size(); i++) {
-                                Composer composer = listeProduit.get(i);
-                                Produit produit = composer.getId().getIdPro();
+                            for (Map<String, Object> produitInfo : listeProduit) {
+                                Produit produit = (Produit) produitInfo.get("produit");
+                                int quantite = (int) produitInfo.get("quantite"); // 获取数量
                     %>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
@@ -63,11 +63,11 @@
 
                             <!-- 商品数量和单价 -->
                             <span class="text-muted">
-                                <%= composer.getQuantiteP() %> x $<%= produit.getPrixUnitaire() %>
+                                <%= quantite %> x $<%= produit.getPrixUnitaire() %>
                             </span>
 
                             <!-- 总价 -->
-                            <strong>$<%= composer.getQuantiteP() * produit.getPrixUnitaire() %></strong>
+                            <strong>$<%= quantite * produit.getPrixUnitaire() %></strong>
                         </li>
                     <%
                             }

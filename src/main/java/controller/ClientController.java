@@ -3,6 +3,7 @@ package controller;
 import dao.PanierDao;
 import metier.Composer;
 import metier.Panier;
+import metier.Produit;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static dao.ProduitDao.findById;
 
 @WebServlet("/Panier")
 public class ClientController extends HttpServlet {
@@ -27,7 +33,20 @@ public class ClientController extends HttpServlet {
                     // 展示用户的购物车内容
                     Panier panier = PanierDao.getPanierByIdClient(idUser);
                     if (panier != null) {
-                        List<Composer> listeProduit = PanierDao.getProductsInPanier(panier.getIdPanier());
+                        List<Composer> composers = PanierDao.getProductsInPanier(idUser);
+                        List<Map<String, Object>> listeProduit = new ArrayList<>();
+
+                        for (Composer composer : composers) {
+                            int idPro = composer.getId().getIdPro(); // 获取商品 ID
+                            Produit produit = findById(idPro); // 通过 ID 查询商品
+
+                            if (produit != null) {
+                                Map<String, Object> produitInfo = new HashMap<>();
+                                produitInfo.put("produit", produit);
+                                produitInfo.put("quantite", composer.getQuantiteP()); // 存储数量
+                                listeProduit.add(produitInfo);
+                            }
+                        }
                         request.setAttribute("panier", panier);
                         request.setAttribute("listeProduit", listeProduit);
                     }
