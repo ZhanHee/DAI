@@ -60,6 +60,21 @@
                                 </div>
                             </div>
 
+                            <!-- 修改数量 -->
+                            <div class="input-group product-qty">
+                                <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number" data-type="minus" onclick="changeQuantity(this.closest('.product-item'), -1)">
+                                        <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                                    </button>
+                                </span>
+                                <input type="text" class="form-control input-number product-quantity" value="<%= quantite %>" readonly>
+                                <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" onclick="changeQuantity(this.closest('.product-item'), 1)">
+                                        <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                                    </button>
+                                </span>
+                            </div>
+
                             <!-- 商品数量和单价 -->
                             <span class="text-muted">
                                 <%= quantite %> x $<%= produit.getPrixUnitaire() %>
