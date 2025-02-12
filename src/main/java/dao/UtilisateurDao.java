@@ -8,21 +8,6 @@ import util.HibernateUtil;
 
 public class UtilisateurDao {
 
-    public static boolean registerUtilisateur(Utilisateur newUser) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(newUser);
-            transaction.commit();
-            return true;
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     public static Utilisateur findByEmail(String email){
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -43,6 +28,24 @@ public class UtilisateurDao {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static boolean creerUtilisateur(Utilisateur user) {
+        if (findByEmail(user.getEmailUser()) != null) {
+            return false;
+        }
+
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            e.printStackTrace();
+            return false;
         }
     }
 

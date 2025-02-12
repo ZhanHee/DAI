@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.List;
+import com.google.gson.Gson;
 
 @WebServlet("/ProduitController")
 public class ProduitController extends HttpServlet {
@@ -25,10 +24,21 @@ public class ProduitController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 根据需求选择对应的 action
         String action = request.getParameter("action");
-        if ("viewProductDetails".equals(action)) {
+        if (action == null) {
+            viewAllProducts(request, response); // 这里缺少了分号
+        } else if ("Probyid".equals(action)) {
             viewProductDetails(request, response);
+        } else if ("searchProduit".equals(action)) {
+            rechercherParMot(request, response);
         }
-        // 其他处理逻辑
+
+    }
+
+    private void viewAllProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Produit> produits = ProduitDao.findAll();  // 获取所有产品
+        request.setAttribute("produits", produits);  // 将产品列表传递给 JSP 页面
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);  // 转发请求到 index.jsp
     }
 
     // find by id
@@ -56,39 +66,46 @@ public class ProduitController extends HttpServlet {
         }
     }
 
-    public void Rechercherparmot(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/xml;charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("<mots>");
+    public void viewProductsByLibelle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String libellePro = request.getParameter("libellePro");
 
-        String mot = request.getParameter("mot");
-        if (mot != null && !mot.isEmpty()) {
+        if (libellePro != null && !libellePro.isEmpty()) {
+            List<Produit> produits = ProduitDao.findByLibelle(libellePro);
 
-            try {
-                List<String> mots = ProduitDao.RechercherParMotCle(mot);
-
-                if (mots != null && !mots.isEmpty()) {
-                    for (String motResult : mots) {
-                        out.println("<mot>" + motResult + "</mot>");
-                    }
-                } else {
-                    out.println("<mot>Aucun résultat trouvé</mot>");
-                }
-            } catch (Exception ex) {
-                out.println("<mot> Erreur - " + ex.getMessage() + "</mot>");
+            if (!produits.isEmpty()) {
+                request.setAttribute("produits", produits);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("listProduits.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.getWriter().println("Aucun produit trouvé pour le libelle : " + libellePro);
             }
         } else {
-            out.println("<mot>Mot-clé requis</mot>");
+            response.getWriter().println("Le libelle du produit est requis.");
+        }
+    }
+
+    public void rechercherParMot(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+        if (keyword == null || keyword.trim().isEmpty()) {
+            response.setContentType("application/json");
+            response.getWriter().write("[]");
+            return;
         }
 
-        out.println("</mots>");
+        List<Produit> produits = ProduitDao.RechercherParMotCle(keyword);
+
+        Gson gson = new Gson();
+        String json = gson.toJson(produits);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 如果需要处理 POST 请求，可以在这里添加逻辑
+
     }
 }
 

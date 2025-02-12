@@ -25,8 +25,7 @@ import java.util.Objects;
     public Categorie() {
     }
 
-    public Categorie(int idCtg, String nomCtg, List<Produit> produits) {
-        this.idCtg = idCtg;
+    public Categorie(String nomCtg, List<Produit> produits) {
         this.nomCtg = nomCtg;
         this.produits = produits;
     }

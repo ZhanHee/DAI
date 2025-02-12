@@ -36,8 +36,7 @@ public class Promotion implements Serializable {
     public Promotion() {
     }
 
-    public Promotion(int idPromo, String typePromo, String valeurPromo, Date dateDebut, Date dateFin, Produit produit) {
-        this.idPromo = idPromo;
+    public Promotion(String typePromo, String valeurPromo, Date dateDebut, Date dateFin, Produit produit) {
         this.typePromo = typePromo;
         this.valeurPromo = valeurPromo;
         this.dateDebut = dateDebut;

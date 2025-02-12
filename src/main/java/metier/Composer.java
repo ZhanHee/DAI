@@ -1,56 +1,39 @@
 package metier;
+import metier.ComposerId;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name = "composer")
 public class Composer implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPro;
+    @EmbeddedId
+    private ComposerId id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPanier;
+    @Column(name = "QuantiteP")
+    private int quantiteP;  // Changed to int
 
-    private int quantiteP;
+    // Default constructor
+    public Composer() {}
 
-    @ManyToOne
-    @JoinColumn(name = "idPro", referencedColumnName = "IdPro", insertable = false, updatable = false)
-    private Produit produit;
-
-    @ManyToOne
-    @JoinColumn(name = "idPanier", referencedColumnName = "IdPanier", insertable = false, updatable = false)
-    private Panier panier;
-
-    public Composer() {
-    }
-
-    public Composer(int idPro, int idPanier, int quantiteP, Produit produit, Panier panier) {
-        this.idPro = idPro;
-        this.idPanier = idPanier;
+    // Constructor with parameters
+    public Composer(ComposerId id, int quantiteP) {
+        this.id = id;
         this.quantiteP = quantiteP;
-        this.produit = produit;
-        this.panier = panier;
     }
 
-    // getters and setters
-    public int getIdPro() {
-        return idPro;
+    // Getters and Setters
+    public ComposerId getId() {
+        return id;
     }
 
-    public void setIdPro(int idPro) {
-        this.idPro = idPro;
-    }
-
-    public int getIdPanier() {
-        return idPanier;
-    }
-
-    public void setIdPanier(int idPanier) {
-        this.idPanier = idPanier;
+    public void setId(ComposerId id) {
+        this.id = id;
     }
 
     public int getQuantiteP() {
@@ -61,43 +44,19 @@ public class Composer implements Serializable {
         this.quantiteP = quantiteP;
     }
 
-    public Produit getProduit() {
-        return produit;
-    }
+    // Overriding equals and hashCode methods to compare objects properly
 
-    public void setProduit(Produit produit) {
-        this.produit = produit;
-    }
-
-    public Panier getPanier() {
-        return panier;
-    }
-
-    public void setPanier(Panier panier) {
-        this.panier = panier;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Composer composer = (Composer) o;
-        return idPro == composer.idPro && idPanier == composer.idPanier && Objects.equals(quantiteP, composer.quantiteP) && Objects.equals(produit, composer.produit) && Objects.equals(panier, composer.panier);
-    }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPro, idPanier, quantiteP, produit, panier);
+        return Objects.hash(id, quantiteP);
     }
 
     @Override
     public String toString() {
         return "Composer{" +
-                "idPro=" + idPro +
-                ", idPanier=" + idPanier +
-                ", quantiteP='" + quantiteP + '\'' +
-                ", produit=" + produit +
-                ", panier=" + panier +
+                "id=" + id +
+                ", quantiteP=" + quantiteP +  // Updated to show int
                 '}';
     }
 }
-

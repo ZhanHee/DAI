@@ -10,15 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 @WebServlet("/CltrUser")
 public class UserController extends HttpServlet {
     private static final long seralVersionUID = 1L;
-    private UtilisateurDao utilisateurDao;
 
-    public void init() throws ServletException{
-        utilisateurDao = new UtilisateurDao();
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,29 +45,36 @@ public class UserController extends HttpServlet {
         }
     }
 
-    private void registerUser(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String name = request.getParameter("name");
+    private void registerUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String prenom = request.getParameter("prenom");
+        String nom = request.getParameter("nom");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirm-password");
+        Date now = new Date();
 
-        Utilisateur newUser = new Utilisateur();
-        newUser.setNomUser(name);
-        newUser.setEmailUser(email);
-        newUser.setMotPasse(password);
+        if (!password.equals(confirmPassword)) {
+            request.setAttribute("errorMessage", "Passwords do not match!");
+            request.getRequestDispatcher("/jsp/creerCompte1.jsp").forward(request, response);
+            return;
+        }
 
-        boolean registered = UtilisateurDao.registerUtilisateur(newUser);
-        if (registered) {
+        Utilisateur newUser = new Utilisateur(nom, prenom, email, password, now);
 
-            response.sendRedirect("login.jsp");
-        } else {
-            request.setAttribute("errorMessage", "注册失败，请重试");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+        try{
+            if (UtilisateurDao.creerUtilisateur(newUser)) {
+                request.setAttribute("successMessage", "Account created successfully! Please log in.");
+                request.getRequestDispatcher("/jsp/login1.jsp").forward(request, response);
+            } else {
+                request.setAttribute("errorMessage", "Registration failed. Try again.");
+                request.getRequestDispatcher("/jsp/creerCompte1.jsp").forward(request, response);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "An unexpected error occurred. Please try again.");
+            request.getRequestDispatcher("/jsp/creerCompte1.jsp").forward(request, response);
         }
     }
 
-    public void destroy(){
-        utilisateurDao = null;
-    }
 
 }

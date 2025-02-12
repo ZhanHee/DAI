@@ -4,6 +4,7 @@ package metier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,12 @@ public class Panier implements Serializable {
     @ManyToOne
     @JoinColumn(name = "IdUser")
     private Client client;
+
+    @OneToMany(mappedBy = "panier", cascade = CascadeType.ALL)
+    private List<ListeAchete> listeAchetes;
+
+    @OneToMany(mappedBy = "panier", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Commande> commandes;
 
     // Getters and Setters
 

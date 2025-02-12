@@ -3,7 +3,9 @@ package metier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "ListeAchete")
@@ -23,6 +25,9 @@ public class ListeAchete implements Serializable {
     @ManyToOne
     @JoinColumn(name = "IdPanier")
     private Panier panier;
+
+    @ManyToMany(mappedBy = "listeAchetes")
+    private Set<Produit> produits = new HashSet<>();
 
     public ListeAchete() {
     }

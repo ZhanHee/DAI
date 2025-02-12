@@ -2,6 +2,8 @@ package metier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -25,6 +27,9 @@ public class ProfilConsommateur implements Serializable {
 
     @Column(name = "CategoriePrefer")
     private String categoriePrefer;
+
+    @OneToMany(mappedBy = "profilConsommateur", cascade = CascadeType.ALL)
+    private List<Client> clients = new ArrayList<>();
 
     public ProfilConsommateur() {
     }

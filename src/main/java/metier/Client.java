@@ -3,7 +3,10 @@ package metier;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Client")
@@ -24,6 +27,19 @@ public class Client implements Serializable {
     @JoinColumn(name = "IdPC")
     private ProfilConsommateur profilConsommateur;
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Panier> paniers;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Commande> commandes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "recommander",  // 关联表名
+            joinColumns = @JoinColumn(name = "IdUser"),  // 当前类(Client)中的外键列
+            inverseJoinColumns = @JoinColumn(name = "IdR")  // 关联类(Recommandation)中的外键列
+    )
+    private Set<Recommandation> recommandations = new HashSet<>();
     // Getters and Setters
 
     public Client() {

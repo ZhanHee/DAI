@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../css/vendor.css">
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -132,7 +132,7 @@
           <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Search</span>
           </h4>
-          <form role="search" action="index.html" method="get" class="d-flex mt-3 gap-0">
+          <form role="search" action="index.jsp" method="get" class="d-flex mt-3 gap-0">
             <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="What are you looking for?" aria-label="What are you looking for?">
             <button class="btn btn-dark rounded-end rounded-0" type="submit">Search</button>
           </form>
@@ -146,7 +146,7 @@
           
           <div class="col-sm-4 col-lg-3 text-center text-sm-start">
             <div class="main-logo">
-              <a href="index.html">
+              <a href="index.jsp">
                 <img src="images/logo.png" alt="logo" class="img-fluid">
               </a>
             </div>
@@ -163,12 +163,18 @@
                 </select>
               </div>
               <div class="col-11 col-md-7">
-                <form id="search-form" class="text-center" action="index.html" method="post">
-                  <input type="text" class="form-control border-0 bg-transparent" placeholder="Chercher un produit" />
+                <form id="search-form" class="text-center" action="index.jsp" method="post">
+                  <input type="text" id="search-input" class="form-control border-0 bg-transparent"
+                         placeholder="Chercher un produit" autocomplete="off"/>
                 </form>
+                <ul id="search-results" class="list-group position-absolute w-100" style="display: none; background: white; z-index: 1000;"></ul>
               </div>
+
               <div class="col-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                        d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/>
+                </svg>
               </div>
             </div>
           </div>
@@ -719,7 +725,7 @@
                       <div class="product-item">
                         <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
                         <figure>
-                          <a href="index.html" title="Product Title">
+                          <a href="index.jsp" title="Product Title">
                             <img src="images/thumb-bananas.png"  class="tab-image">
                           </a>
                         </figure>
@@ -787,7 +793,7 @@
                       <div class="product-item">
                         <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
                         <figure>
-                          <a href="index.html" title="Product Title">
+                          <a href="index.jsp" title="Product Title">
                             <img src="images/thumb-milk.png"  class="tab-image">
                           </a>
                         </figure>
@@ -817,7 +823,7 @@
                       <div class="product-item">
                         <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
                         <figure>
-                          <a href="index.html" title="Product Title">
+                          <a href="index.jsp" title="Product Title">
                             <img src="images/thumb-tomatoes.png"  class="tab-image">
                           </a>
                         </figure>
@@ -955,10 +961,10 @@
         </div>
       </div>
     </div>
-    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="../js/jquery-1.11.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/script.js"></script>
+    <script src="../js/plugins.js"></script>
+    <script src="../js/script.js"></script>
   </body>
 </html>

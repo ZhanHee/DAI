@@ -32,6 +32,8 @@ public class Commande implements Serializable {
     @JoinColumn(name = "IdUser")
     private Client client;
 
+
+
     // Getters and Setters
 
     public Commande() {
