@@ -3,11 +3,12 @@ package metier;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Panier")
-public class Panier {
+public class Panier implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

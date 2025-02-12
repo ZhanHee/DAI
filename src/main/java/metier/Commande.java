@@ -2,12 +2,13 @@ package metier;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Commande")
-public class Commande {
+public class Commande implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

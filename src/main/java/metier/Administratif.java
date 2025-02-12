@@ -1,11 +1,12 @@
 package metier;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Administratif {
+public class Administratif implements Serializable {
     @Id
     @Column(name = "IdUser")
     private int idUser;

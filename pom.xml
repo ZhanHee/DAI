@@ -31,7 +31,6 @@
             <version>6.2.5.Final</version>
         </dependency>
 
-        <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

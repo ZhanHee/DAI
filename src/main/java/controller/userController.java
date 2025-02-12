@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/user")
+@WebServlet("/CltrUser")
 public class UserController extends HttpServlet {
     private static final long seralVersionUID = 1L;
     private UtilisateurDao utilisateurDao;
@@ -24,6 +24,8 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
+
+        System.out.println(action);
         if ("register".equalsIgnoreCase(action)) {
             registerUser(request, response);
         } else if("login".equalsIgnoreCase(action)) {
@@ -39,10 +41,10 @@ public class UserController extends HttpServlet {
 
         if (utilisateur != null) {
             request.getSession().setAttribute("utilisateur", utilisateur);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(request.getContextPath() + "/jsp/index.jsp");
         } else {
             request.setAttribute("errorMessage", "user not found");
-            request.getRequestDispatcher("login1.jsp").forward(request, response);
+            request.getRequestDispatcher("/jsp/login1.jsp").forward(request, response);
         }
     }
 

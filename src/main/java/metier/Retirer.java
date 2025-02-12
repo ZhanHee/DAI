@@ -1,6 +1,7 @@
 package metier;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "retirer")
-public class Retirer {
+public class Retirer implements Serializable {
 
     @Id
     @ManyToOne

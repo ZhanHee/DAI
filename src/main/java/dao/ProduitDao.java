@@ -36,4 +36,14 @@ public class ProduitDao {
             return new ArrayList<>();  // Retourne une liste vide en cas d'erreur
         }
     }
+    public static List<Produit> findAll() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // 只在 Produit 表中查找
+            Query<Produit> query = session.createQuery("FROM Produit p", Produit.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

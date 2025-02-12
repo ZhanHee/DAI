@@ -1,11 +1,12 @@
 package metier;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "recommander")
-public class Recommander {
+public class Recommander implements Serializable {
 
     @Id
     @ManyToOne

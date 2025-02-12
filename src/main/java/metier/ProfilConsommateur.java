@@ -1,12 +1,13 @@
 package metier;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 
 @Entity
 @Table(name = "ProfilConsommateur")
-public class ProfilConsommateur {
+public class ProfilConsommateur implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,10 +1,11 @@
 package metier;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Concerner {
+public class Concerner implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

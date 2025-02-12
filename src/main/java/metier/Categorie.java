@@ -2,11 +2,12 @@ package metier;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-    public class Categorie {
+    public class Categorie implements Serializable {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "IdCtg")

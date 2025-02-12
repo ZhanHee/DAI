@@ -2,10 +2,11 @@ package metier;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Preparateur {
+public class Preparateur implements Serializable {
     @Id
     @Column(name = "IdUser")
     private int idUser;
