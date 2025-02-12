@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+import java.util.List;
+
 import static dao.ProduitDao.findById;
 
 public class PanierDao {
@@ -22,6 +24,21 @@ public class PanierDao {
             session.close();
             return panier;
         } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 显示购物车中的产品
+    public static List<Composer> getProductsInPanier(int idUser) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Panier panier = getPanierByIdClient(idUser);
+            Query<Composer> query = session.createQuery("FROM Composer WHERE panier.idPanier = :panierId", Composer.class);
+            query.setParameter("panierId", panier.getIdPanier());
+            List<Composer> composers = query.list();
+            session.close();
+            return composers;
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

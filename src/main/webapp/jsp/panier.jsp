@@ -33,52 +33,59 @@
         <div class="row">
             <div class="col-md-8">
                 <ul class="list-group mb-3">
-                    <!-- Item 1 -->
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <img src="images/thumb-bananas.png" alt="Growers Cider" class="img-fluid" style="width: 50px; height: auto; margin-right: 15px; border: 1px solid black;">
-                            <div>
-                                <h6 class="my-0">Growers Cider</h6>
-                                <small class="text-muted">Boisson rafraichissante</small>
-                            </div>
-                        </div>
-                        <span class="text-muted">$12</span>
-                    </li>
 
-                    <!-- Item 2 -->
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <img src="images/thumb-bananas.png" alt="Fresh Grapes" class="img-fluid" style="width: 50px; height: auto; margin-right: 15px; border: 1px solid black;">
-                            <div>
-                                <h6 class="my-0">Fresh Grapes</h6>
-                                <small class="text-muted">Fruits bio et frais</small>
-                            </div>
-                        </div>
-                        <span class="text-muted">$8</span>
-                    </li>
+                    <!-- Liste de produits -->
+                    <%
+                        // 获取产品列表
+                        List<Composer> listeProduit = (List<Composer>) request.getAttribute("listeProduit");
+                        Panier panier = (Panier) request.getAttribute("panier");
 
-                    <!-- Item 3 -->
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <img src="images/thumb-bananas.png" alt="Heinz Tomato Ketchup" class="img-fluid" style="width: 50px; height: auto; margin-right: 15px; border: 1px solid black;">
-                            <div>
-                                <h6 class="my-0">Heinz Tomato Ketchup</h6>
-                                <small class="text-muted">Sauce tomate classique</small>
+                        if (panier != null && listeProduit != null && !listeProduit.isEmpty()) {
+                            // 遍历购物车中的所有商品
+                            for (int i = 0; i < listeProduit.size(); i++) {
+                                Composer composer = listeProduit.get(i);
+                                Produit produit = composer.getProduit();
+                    %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <!-- 商品图片 -->
+                                <img src="<%= produit.getImageURL() %>" alt="<%= produit.getLibellePro() %>" class="img-fluid" style="width: 50px; height: auto; margin-right: 15px; border: 1px solid black;">
+                                <div>
+                                    <h6 class="my-0"><%= produit.getLibellePro() %></h6>
+                                    <small class="text-muted"><%= produit.getDescriptionP() %></small>
+                                </div>
                             </div>
-                        </div>
-                        <span class="text-muted">$5</span>
-                    </li>
+
+                            <!-- 商品数量和单价 -->
+                            <span class="text-muted">
+                                <%= composer.getQuantiteP() %> x <%= produit.getPrixUnitaire() %>€
+                            </span>
+
+                            <!-- 总价 -->
+                            <strong><%= composer.getQuantiteP() * produit.getPrixUnitaire() %>€</strong>
+                        </li>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Votre panier est vide.
+                        </li>
+                    <%
+                        }
+                    %>
 
                     <!-- Total -->
                     <li class="list-group-item d-flex justify-content-between">
                         <strong>Total (USD)</strong>
-                        <strong>$25</strong>
+                        <strong>$<%= panier != null ? panier.getPrixTotal() : 0 %></strong>
                     </li>
                 </ul>
 
                 <!-- Checkout Button -->
-                <button class="btn btn-primary btn-lg w-100">Passer a� la caisse</button>
-            </div>
+                <form action="panier" method="post">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Confirmez la commande</button>
+                </form>
         </div>
     </main>
 
