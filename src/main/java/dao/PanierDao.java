@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import util.HibernateUtil;
 
+import static dao.ProduitDao.findById;
+
 public class PanierDao {
 
     // 获取当前用户id的购物车
@@ -82,7 +84,7 @@ public class PanierDao {
 
             composer.setQuantiteP(composer.getQuantiteP()+1);
 
-            Produit produit = composer.getProduit();
+            Produit produit = findById(composer.getIdPro());
             panier.setPrixTotal(panier.getPrixTotal() + (produit.getPrixUnitaire() * composer.getQuantiteP()));
             session.update(panier);
             session.update(composer);
@@ -118,7 +120,7 @@ public class PanierDao {
 
             composer.setQuantiteP(composer.getQuantiteP()-1);
 
-            Produit produit = composer.getProduit();
+            Produit produit = findById(composer.getIdPro());
             panier.setPrixTotal(panier.getPrixTotal() + (produit.getPrixUnitaire() * composer.getQuantiteP()));
 
             session.update(panier);
