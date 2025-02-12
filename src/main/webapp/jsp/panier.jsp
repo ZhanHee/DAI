@@ -63,11 +63,11 @@
 
                             <!-- 商品数量和单价 -->
                             <span class="text-muted">
-                                <%= composer.getQuantiteP() %> x <%= produit.getPrixUnitaire() %>€
+                                <%= composer.getQuantiteP() %> x $<%= produit.getPrixUnitaire() %>
                             </span>
 
                             <!-- 总价 -->
-                            <strong><%= composer.getQuantiteP() * produit.getPrixUnitaire() %>€</strong>
+                            <strong>$<%= composer.getQuantiteP() * produit.getPrixUnitaire() %></strong>
                         </li>
                     <%
                             }
