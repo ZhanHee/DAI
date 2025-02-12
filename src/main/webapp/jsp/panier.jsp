@@ -40,12 +40,10 @@
 
                     <!-- Liste de produits -->
                     <%
-                        // 获取产品和数量列表
                         List<Map<String, Object>> listeProduit = (List<Map<String, Object>>) request.getAttribute("listeProduit");
                         Panier panier = (Panier) request.getAttribute("panier");
 
                         if (listeProduit != null && !listeProduit.isEmpty()) {
-                            // 遍历购物车中的所有商品
                             for (Map<String, Object> produitInfo : listeProduit) {
                                 Produit produit = (Produit) produitInfo.get("produit");
                                 int quantite = (int) produitInfo.get("quantite"); // 获取数量
@@ -80,7 +78,7 @@
                                 <%= quantite %> x $<%= produit.getPrixUnitaire() %>
                             </span>
 
-                            <!-- 总价 -->
+                            <!-- 单件商品总价 -->
                             <strong>$<%= quantite * produit.getPrixUnitaire() %></strong>
                         </li>
                     <%
@@ -101,10 +99,21 @@
                     </li>
                 </ul>
 
-                <!-- Checkout Button -->
-                <form action="panier" method="post">
-                    <button type="submit" class="btn btn-primary btn-lg w-100">Confirmez la commande</button>
-                </form>
+                <div class="row">
+                    <div class="col-6">
+                        <!-- Clear panier Button -->
+                        <form action="clearPanier" method="get">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Clear Panier</button>
+                        </form>
+                    </div>
+                    <div class="col-6">
+                        <!-- Checkout Button -->
+                        <form action="commande" method="post">
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Confirmez la commande</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
