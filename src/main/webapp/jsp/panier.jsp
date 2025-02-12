@@ -49,7 +49,7 @@
                             // 遍历购物车中的所有商品
                             for (int i = 0; i < listeProduit.size(); i++) {
                                 Composer composer = listeProduit.get(i);
-                                Produit produit = composer.getProduit();
+                                Produit produit = composer.getId().getIdPro();
                     %>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
