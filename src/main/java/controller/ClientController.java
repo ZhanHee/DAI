@@ -60,14 +60,6 @@ public class ClientController extends HttpServlet {
                     panierDao.clearPanier(idUser);
                     response.sendRedirect("Panier?action=affichePanier");
                     break;
-
-                default:
-                    // 默认操作，显示购物车
-                    panier = PanierDao.getPanierByIdClient(idUser);
-                    request.setAttribute("panier", panier);
-                    dispatcher = request.getRequestDispatcher("/jsp/panier.jsp");
-                    dispatcher.forward(request, response);
-                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +95,6 @@ public class ClientController extends HttpServlet {
                     break;
 
                 default:
-                    // 默认行为处理
                     response.sendRedirect("Panier?action=affichePanier");
                     break;
             }

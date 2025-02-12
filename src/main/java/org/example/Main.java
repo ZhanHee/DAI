@@ -14,9 +14,9 @@ public class Main {
 
         Utilisateur utilisateur = UtilisateurDao.verifierUtilisateur("zhangzhanhe66@gmail.com", "111");
 
-        List<Produit> produits = ProduitDao.findAll();
+        //List<Produit> produits = ProduitDao.findAll();
 
-        System.out.println(produits);
+        System.out.println(utilisateur);
 
 
     }
