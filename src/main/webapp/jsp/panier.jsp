@@ -1,7 +1,6 @@
-<%@ page import="java.util.List" %>
-<%@ page import="metier.Composer" %>
-<%@ page import="metier.Panier" %>
+<%@ page import="java.util.List, java.util.Map" %>
 <%@ page import="metier.Produit" %>
+<%@ page import="metier.Panier" %>
 
 <!DOCTYPE html>
 <html lang="en">
