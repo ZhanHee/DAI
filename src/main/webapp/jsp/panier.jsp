@@ -1,3 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="metier.Composer" %>
+<%@ page import="metier.Panier" %>
+<%@ page import="metier.Produit" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
