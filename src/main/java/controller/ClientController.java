@@ -21,33 +21,37 @@ public class ClientController extends HttpServlet {
         String action = request.getParameter("action");
         int idUser = Integer.parseInt(request.getSession().getAttribute("idUser").toString());
 
-        switch (action) {
-            case "affichePanier":
-                // 展示用户的购物车内容
-                Panier panier = PanierDao.getPanierByIdClient(idUser);
-                if (panier != null) {
-                    List<Composer> listeProduit = PanierDao.getProductsInPanier(panier.getIdPanier());
+        try{
+            switch (action) {
+                case "affichePanier":
+                    // 展示用户的购物车内容
+                    Panier panier = PanierDao.getPanierByIdClient(idUser);
+                    if (panier != null) {
+                        List<Composer> listeProduit = PanierDao.getProductsInPanier(panier.getIdPanier());
+                        request.setAttribute("panier", panier);
+                        request.setAttribute("listeProduit", listeProduit);
+                    }
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/panier.jsp");
+                    dispatcher.forward(request, response);
+                    break;
+
+                case "clearPanier":
+                    // 清空购物车
+                    PanierDao panierDao = new PanierDao();
+                    panierDao.clearPanier(idUser);
+                    response.sendRedirect("Panier?action=affichePanier");
+                    break;
+
+                default:
+                    // 默认操作，显示购物车
+                    panier = PanierDao.getPanierByIdClient(idUser);
                     request.setAttribute("panier", panier);
-                    request.setAttribute("listeProduit", listeProduit);
-                }
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/panier.jsp");
-                dispatcher.forward(request, response);
-                break;
-
-            case "clearPanier":
-                // 清空购物车
-                PanierDao panierDao = new PanierDao();
-                panierDao.clearPanier(idUser);
-                response.sendRedirect("Panier?action=affichePanier");
-                break;
-
-            default:
-                // 默认操作，显示购物车
-                panier = PanierDao.getPanierByIdClient(idUser);
-                request.setAttribute("panier", panier);
-                dispatcher = request.getRequestDispatcher("/jsp/panier.jsp");
-                dispatcher.forward(request, response);
-                break;
+                    dispatcher = request.getRequestDispatcher("/jsp/panier.jsp");
+                    dispatcher.forward(request, response);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -56,32 +60,36 @@ public class ClientController extends HttpServlet {
         String action = request.getParameter("action");
         int idUser = Integer.parseInt(request.getSession().getAttribute("idUser").toString());
 
-        switch (action) {
-            case "addProduit":
-                // 添加商品到购物车
-                int idPro = Integer.parseInt(request.getParameter("idPro"));
-                int quantite = Integer.parseInt(request.getParameter("quantite"));
-                PanierDao.addProduitToPanier(idUser, idPro, quantite);
-                response.sendRedirect("Panier?action=affichePanier");
-                break;
+        try{
+            switch (action) {
+                case "addProduit":
+                    // 添加商品到购物车
+                    int idPro = Integer.parseInt(request.getParameter("idPro"));
+                    int quantite = Integer.parseInt(request.getParameter("quantite"));
+                    PanierDao.addProduitToPanier(idUser, idPro, quantite);
+                    response.sendRedirect("Panier?action=affichePanier");
+                    break;
 
-            case "updateQuantity":
-                // 更新购物车中商品的数量
-                int idProUpdate = Integer.parseInt(request.getParameter("idPro"));
-                String quantityAction = request.getParameter("quantityAction");
+                case "updateQuantity":
+                    // 更新购物车中商品的数量
+                    int idProUpdate = Integer.parseInt(request.getParameter("idPro"));
+                    String quantityAction = request.getParameter("quantityAction");
 
-                if ("increase".equals(quantityAction)) {
-                    PanierDao.addQuantitePro(idUser, idProUpdate);
-                } else if ("decrease".equals(quantityAction)) {
-                    PanierDao.reduceQuantitePro(idUser, idProUpdate);
-                }
-                response.sendRedirect("Panier?action=affichePanier");
-                break;
+                    if ("increase".equals(quantityAction)) {
+                        PanierDao.addQuantitePro(idUser, idProUpdate);
+                    } else if ("decrease".equals(quantityAction)) {
+                        PanierDao.reduceQuantitePro(idUser, idProUpdate);
+                    }
+                    response.sendRedirect("Panier?action=affichePanier");
+                    break;
 
-            default:
-                // 默认行为处理
-                response.sendRedirect("Panier?action=affichePanier");
-                break;
+                default:
+                    // 默认行为处理
+                    response.sendRedirect("Panier?action=affichePanier");
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
