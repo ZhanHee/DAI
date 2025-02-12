@@ -1,9 +1,6 @@
 package dao;
 
-import metier.Client;
-import metier.Composer;
-import metier.Panier;
-import metier.Produit;
+import metier.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -60,9 +57,9 @@ public class PanierDao {
 
             Produit produit = session.get(Produit.class, idPro);
 
+            ComposerId composerId = new ComposerId(produit.getIdPro(), panier.getIdPanier());
             Composer composer = new Composer();
-            composer.setProduit(produit);
-            composer.setPanier(panier);
+            composer.setId(composerId);
             composer.setQuantiteP(quantite);
 
             session.save(composer);
@@ -101,7 +98,7 @@ public class PanierDao {
 
             composer.setQuantiteP(composer.getQuantiteP()+1);
 
-            Produit produit = findById(composer.getIdPro());
+            Produit produit = findById(composer.getId().getIdPro());
             panier.setPrixTotal(panier.getPrixTotal() + (produit.getPrixUnitaire() * composer.getQuantiteP()));
             session.update(panier);
             session.update(composer);
@@ -137,7 +134,7 @@ public class PanierDao {
 
             composer.setQuantiteP(composer.getQuantiteP()-1);
 
-            Produit produit = findById(composer.getIdPro());
+            Produit produit = findById(composer.getId().getIdPro());
             panier.setPrixTotal(panier.getPrixTotal() + (produit.getPrixUnitaire() * composer.getQuantiteP()));
 
             session.update(panier);
