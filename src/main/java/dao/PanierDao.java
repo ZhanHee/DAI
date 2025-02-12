@@ -134,7 +134,7 @@ public class PanierDao {
     }
 
     // 清空购物车
-    public void clearCart(int idUser) {
+    public void clearPanier(int idUser) {
         try{
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
