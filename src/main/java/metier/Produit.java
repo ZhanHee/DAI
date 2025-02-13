@@ -50,10 +50,10 @@ public class Produit implements Serializable {
     @JoinColumn(name = "IdCtg")
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Promotion> promotions;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ajouter",
             joinColumns = @JoinColumn(name = "IdPro"),
@@ -61,13 +61,15 @@ public class Produit implements Serializable {
     )
     private Set<ListeAchete> listeAchetes = new HashSet<>();
 
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "concerner",  // 关联表名
-            joinColumns = @JoinColumn(name = "IdPro"),  // 当前类(Produit)中的外键列
-            inverseJoinColumns = @JoinColumn(name = "IdR")  // 关联类(Recommandation)中的外键列
+            name = "concerner",
+            joinColumns = @JoinColumn(name = "IdPro"),
+            inverseJoinColumns = @JoinColumn(name = "IdR")
     )
     private Set<Recommandation> recommandations = new HashSet<>();
+
 
     public Produit() {
     }

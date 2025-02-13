@@ -1,6 +1,7 @@
 package controller;
 
 import dao.PanierDao;
+import metier.Categorie;
 import metier.Composer;
 import metier.Panier;
 import metier.Produit;

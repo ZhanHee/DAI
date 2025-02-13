@@ -15,7 +15,7 @@ import java.util.Objects;
         @Column(name = "NomCtg", length = 50)
         private String nomCtg;
 
-        @OneToMany(mappedBy = "categorie")
+        @OneToMany(mappedBy = "categorie", fetch = FetchType.EAGER)
         private List<Produit> produits;
 
 
@@ -68,11 +68,8 @@ import java.util.Objects;
 
     @Override
     public String toString() {
-        return "Categorie{" +
-                "idCtg=" + idCtg +
-                ", nomCtg='" + nomCtg + '\'' +
-                ", produits=" + produits +
-                '}';
+        return "Categorie{id=" + idCtg + ", name=" + nomCtg + ", produitsCount=" + produits.size() + "}";
     }
 }
+
 
