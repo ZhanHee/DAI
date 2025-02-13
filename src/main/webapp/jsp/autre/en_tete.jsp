@@ -25,10 +25,12 @@
       <ul class="list-group mb-3">
         <%
           double total = 0;
-          for (HashMap.Entry<Produit, Integer> entry : panier.entrySet()) {
-            Produit produit_panier = entry.getKey();
-            Integer quantity = entry.getValue();
-            total += produit_panier.getPrixUnitaire() * quantity;
+
+          if (panier != null) {
+            for (HashMap.Entry<Produit, Integer> entry : panier.entrySet()) {
+                Produit produit_panier = entry.getKey();
+                Integer quantity = entry.getValue();
+                total += produit_panier.getPrixUnitaire() * quantity;
         %>
         <li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
@@ -38,6 +40,7 @@
           <span class="text-body-secondary"><%= produit_panier.getPrixUnitaire() * quantity %>€</span>
         </li>
         <%
+            }
           }
           total = Math.round(total * 100.0) / 100.0;
         %>
