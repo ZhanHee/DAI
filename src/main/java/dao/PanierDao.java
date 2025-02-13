@@ -15,15 +15,14 @@ public class PanierDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query<Panier> query = session.createQuery("FROM Panier WHERE idUser = :id", Panier.class);
             query.setParameter("id", idUser);
-            Panier panier = query.uniqueResult();
-            return panier;
+            return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    // 获取购物车中所有商品
+    // 获取购物车中的所有商品
     public static List<Composer> getProductsInPanier(int idUser) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Panier panier = getPanierByIdClient(idUser);
@@ -61,7 +60,7 @@ public class PanierDao {
             Composer composer = query.uniqueResult();
 
             if (composer != null) {
-                // 商品已在购物车中，增加数量
+                // 如果商品已经存在，增加数量
                 composer.setQuantiteP(composer.getQuantiteP() + quantite);
             } else {
                 // 新商品加入购物车
