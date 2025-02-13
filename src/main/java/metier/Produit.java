@@ -72,6 +72,21 @@ public class Produit implements Serializable {
     public Produit() {
     }
 
+    public Produit(Categorie categorie, String imageURL, String marque, boolean bio, String conditionnement, int poids, String nutrisScore, double prixAuKg, double prixUnitaire, String descriptionP, String libellePro, int idPro) {
+        this.categorie = categorie;
+        this.imageURL = imageURL;
+        this.marque = marque;
+        this.bio = bio;
+        this.conditionnement = conditionnement;
+        this.poids = poids;
+        this.nutrisScore = nutrisScore;
+        this.prixAuKg = prixAuKg;
+        this.prixUnitaire = prixUnitaire;
+        this.descriptionP = descriptionP;
+        this.libellePro = libellePro;
+        this.idPro = idPro;
+    }
+
     public int getIdPro() {
         return idPro;
     }

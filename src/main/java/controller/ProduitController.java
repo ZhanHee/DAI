@@ -1,111 +1,283 @@
 package controller;
 
-import metier.Produit;
-import dao.ProduitDao;
-import javax.servlet.RequestDispatcher;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import com.google.gson.Gson;
 
-@WebServlet("/ProduitController")
+import dao.CategorieDao;
+import dao.ProduitDao;
+import metier.Categorie;
+import metier.Produit;
+
+@WebServlet("/produit")
 public class ProduitController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
-    public ProduitController() {
-        super();
-    }
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Récupérer l'action passée dans l'URL
+        String action = request.getParameter("produit");
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 根据需求选择对应的 action
-        String action = request.getParameter("action");
-        if (action == null) {
-            viewAllProducts(request, response); // 这里缺少了分号
-        } else if ("Probyid".equals(action)) {
-            viewProductDetails(request, response);
-        } else if ("searchProduit".equals(action)) {
-            rechercherParMot(request, response);
-        }
+        // Création de la liste des catégories
+        List<Categorie> categories = new ArrayList<>();
+        List<Produit> les_produits = new ArrayList<>();
 
-    }
+        // Ajout de la catégorie Fruits
+        Categorie categoriePomme = new Categorie();
+        categoriePomme.setIdCtg(1);
+        categoriePomme.setNomCtg("Fruits");
+        categories.add(categoriePomme);
 
-    private void viewAllProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Produit> produits = ProduitDao.findAll();  // 获取所有产品
-        request.setAttribute("produits", produits);  // 将产品列表传递给 JSP 页面
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);  // 转发请求到 index.jsp
-    }
+        // Ajout de la catégorie Légumes
+        Categorie categorieLegumes = new Categorie();
+        categorieLegumes.setIdCtg(2);
+        categorieLegumes.setNomCtg("Légumes");
+        categories.add(categorieLegumes);
 
-    // find by id
-    public void viewProductDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idProStr = request.getParameter("idPro");
+        // Ajout de la catégorie Produits laitiers
+        Categorie categorieLaitiers = new Categorie();
+        categorieLaitiers.setIdCtg(3);
+        categorieLaitiers.setNomCtg("Produits laitiers");
+        categories.add(categorieLaitiers);
 
-        if (idProStr != null && !idProStr.isEmpty()) {
-            try {
-                int idPro = Integer.parseInt(idProStr);
+        // Ajout de la catégorie Viande
+        Categorie categorieViande = new Categorie();
+        categorieViande.setIdCtg(4);
+        categorieViande.setNomCtg("Viande");
+        categories.add(categorieViande);
 
-                Produit produit = ProduitDao.findById(idPro);
+        // Ajout de la catégorie Boissons
+        Categorie categorieBoissons = new Categorie();
+        categorieBoissons.setIdCtg(5);
+        categorieBoissons.setNomCtg("Boissons");
+        categories.add(categorieBoissons);
 
-                if (produit != null) {
-                    request.setAttribute("produit", produit);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("detail.jsp");
-                    dispatcher.forward(request, response);
-                } else {
-                    response.getWriter().println("Produit not found");
-                }
-            } catch (NumberFormatException e) {
-                response.getWriter().println("Invalid product ID");
-            }
-        } else {
-            response.getWriter().println("Product ID is required");
-        }
-    }
+        // Ajout de la catégorie Boulangerie
+        Categorie categorieBoulangerie = new Categorie();
+        categorieBoulangerie.setIdCtg(6);
+        categorieBoulangerie.setNomCtg("Boulangerie");
+        categories.add(categorieBoulangerie);
 
-    public void viewProductsByLibelle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String libellePro = request.getParameter("libellePro");
+        HashMap<Produit, Integer> panier = new HashMap<>();
 
-        if (libellePro != null && !libellePro.isEmpty()) {
-            List<Produit> produits = ProduitDao.findByLibelle(libellePro);
+        Produit produit = new Produit(
+                categoriePomme,
+                "https://www.levergerdescoudreaux.fr/media/images/catalog/article/27/mediumDetail/9.jpg",
+                "Verger Delice",
+                true, // Correspond à "Bio" qui est à 1
+                "6 pièces",
+                1, // Poids (1 kg ?)
+                "A",
+                3.99, // Prix au kg
+                2.99, // Prix unitaire
+                "Pommes fraîches de variété Granny Smith, croquante...",
+                "Pommes Granny Smith",
+                1 // ID du produit
+        );
 
-            if (!produits.isEmpty()) {
-                request.setAttribute("produits", produits);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("listProduits.jsp");
-                dispatcher.forward(request, response);
+        Produit laitEntier = new Produit(
+                categoriePomme,
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfLiYVbLVGMx8GIoOMiN1RWst2TNNMqYd-NQ&s",
+                "Laiterie Montblanc",
+                false, // Non bio
+                "Brique de 1L",
+                1, // Poids (1L)
+                "B",
+                1.15, // Prix au kg
+                1.15, // Prix unitaire
+                "Lait entier frais, riche en calcium et vitamine D.",
+                "Lait entier 1L",
+                2 // ID du produit
+        );
+
+        Produit saumon = new Produit(
+                categoriePomme,
+                "https://www.frais-livre.fr/2369-medium_default/pave-filet-de-saumon-d-ecosse.jpg",
+                "Mer&Co",
+                false, // Non bio
+                "Sous vide",
+                0, // Poids inconnu
+                "C",
+                13.99, // Prix au kg
+                8.49, // Prix unitaire
+                "Filet de saumon frais, idéal pour une cuisson rapide en poêle ou au four.",
+                "Filet de saumon",
+                3 // ID du produit
+        );
+
+        Produit chipsNature = new Produit(
+                categoriePomme,
+                "https://m.media-amazon.com/images/I/817dg1j3XEL.jpg",
+                "Snacky Crips",
+                false, // Non bio
+                "Paquet de 200g",
+                0, // Poids inconnu
+                "C",
+                3.98, // Prix au kg
+                1.99, // Prix unitaire
+                "Chips de pommes de terre naturelles, idéales pour l'apéritif.",
+                "Chips nature",
+                7 // ID du produit
+        );
+
+        Produit yaourtVanille = new Produit(
+                categoriePomme,
+                "https://media.carrefour.fr/medias/fef14b41871534fa90b9b6b49fa975a7/p_540x540/03279230045014-a1n1-s01",
+                "La Laitière",
+                false, // Non bio
+                "Pot de 150g",
+                0, // Poids inconnu
+                "B",
+                1.35, // Prix au kg
+                1.35, // Prix unitaire
+                "Yaourt crémeux parfumé à la vanille naturelle, idéal pour le goûter.",
+                "Yaourt à la vanille",
+                22 // ID du produit
+        );
+
+        Produit quinoaBio = new Produit(
+                categoriePomme,
+                "https://www.leanature.com/media/catalog/product/1/2/1233722-quinoa-graines-gourmandes-sans-gluten-ja",
+                "Nature & Cie",
+                true, // Bio
+                "Paquet de 500g",
+                1, // Poids (1kg)
+                "A",
+                9.98, // Prix au kg
+                4.99, // Prix unitaire
+                "Quinoa bio, riche en protéines et idéal pour les repas végétariens.",
+                "Quinoa bio",
+                24 // ID du produit
+        );
+
+
+        Produit produit1 = new Produit(
+                categoriePomme,
+                "https://www.leanature.com/media/catalog/product/1/2/1233722-quinoa-graines-gourmandes-sans-gluten-ja",
+                "Nature & Cie",
+                true, // Bio
+                "Paquet de 500g",
+                1, // Poids
+                "A",
+                9.98,
+                4.99,
+                "Quinoa bio, riche en protéines et idéal pour les repas végétariens.",
+                "Quinoa bio",
+                24
+        );
+
+        Produit produit2 = new Produit(
+                categoriePomme,
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQprZpX9Sds3dUerlrJp8tOytE66zHLNYrmng&s",
+                "PizzaFresca",
+                false,
+                "Pizza de 400g",
+                0,
+                "B",
+                7.98,
+                3.99,
+                "Pizza surgelée avec tomate, mozzarella et basilic frais.",
+                "Pizza Margherita surgelée",
+                5
+        );
+
+        Produit produit3 = new Produit(
+                categoriePomme,
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEQLAfOFKZK1Uc4kUgEpqfx5N2tzUTTx5Q8Q&s",
+                "Poulet Royal",
+                false,
+                "Pièce entière",
+                0,
+                "C",
+                12.98,
+                7.99,
+                "Poulet rôti prêt à consommer, savoureux et doré à point.",
+                "Poulet rôti",
+                13
+        );
+
+        Produit produit4 = new Produit(
+                categoriePomme,
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRak8dYFa0zD3z1wUYJUanuEn7qvAtb2qMBZg&s",
+                "Fruits du Vignoble",
+                true,
+                "Barquette de 500g",
+                1,
+                "A",
+                9,
+                4.5,
+                "Raisin rouge frais, sucré et juteux, parfait pour les collations.",
+                "Raisin rouge",
+                28
+        );
+
+        Produit produit5 = new Produit(
+                categoriePomme,
+                "https://www.andros.fr/wp-content/uploads/2023/04/20220914103320_03045320000481_H1N1-1.png",
+                "Fruits du Terroir",
+                false,
+                "Pot de 200g",
+                0,
+                "A",
+                16.5,
+                3.3,
+                "Confiture de fraises artisanale, riche en fruits et légèrement sucrée.",
+                "Confiture de fraises",
+                20
+        );
+
+        // Ajout des produits avec des quantités
+        panier.put(laitEntier, 2);  // 2 briques de lait entier
+        panier.put(saumon, 1);      // 1 filet de saumon
+        panier.put(chipsNature, 3); // 3 paquets de chips
+        panier.put(yaourtVanille, 4); // 4 yaourts à la vanille
+        panier.put(quinoaBio, 1);   // 1 paquet de quinoa bio
+
+        request.setAttribute("liste_categorie", CategorieDao.findAll());
+        request.setAttribute("panier_utilisateur", panier);
+        request.setAttribute("liste_produit", ProduitDao.findAll() );
+        request.setAttribute("produit", produit);
+
+        //En fonction de l'action
+        if ("all".equals(action)) {
+
+            //Si il y'a un champ recherche envoyé en entrée également alors le récupérer et l'envoyer sous paramètre
+            // produit=all&recherche=mot => setAttribute recherche=mot sinon si y'en a pas recherche vaut aucune
+            String recherche = request.getParameter("recherche");
+            if (recherche != null && !recherche.isEmpty()) {
+                request.setAttribute("recherche", recherche);
             } else {
-                response.getWriter().println("Aucun produit trouvé pour le libelle : " + libellePro);
+                request.setAttribute("recherche", "aucune"); // Valeur par défaut
             }
-        } else {
-            response.getWriter().println("Le libelle du produit est requis.");
+
+            String categorie = request.getParameter("categorie");
+            if (categorie != null && !categorie.isEmpty()) {
+                request.setAttribute("categorie", categorie);
+            } else {
+                request.setAttribute("categorie", "0"); // Valeur par défaut
+            }
+
+            request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+        }
+
+        else
+        {
+
+            if ("panier".equals(action)) {
+                request.getRequestDispatcher("/jsp/panier.jsp").forward(request, response);
+            }
+
+            else {
+                request.setAttribute("produit", ProduitDao.findById(Integer.parseInt(action)));
+                request.getRequestDispatcher("/jsp/detail.jsp").forward(request, response);
+            }
         }
     }
 
-    public void rechercherParMot(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("keyword");
-        if (keyword == null || keyword.trim().isEmpty()) {
-            response.setContentType("application/json");
-            response.getWriter().write("[]");
-            return;
-        }
-
-        List<Produit> produits = ProduitDao.RechercherParMotCle(keyword);
-
-        Gson gson = new Gson();
-        String json = gson.toJson(produits);
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
-    }
-
-
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }
-
