@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 
     <style>
         body {
@@ -31,7 +31,7 @@
 
     <div class="login-container">
         <h2>FoodMart Login</h2>
-        <form action="<%= request.getContextPath() %>/CltrUser" method="post">
+        <form action="dashboard.html" method="post">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="email" name="email" required>
@@ -47,10 +47,10 @@
                 <label class="form-check-label" for="rememberMe">Remember me</label>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100" name="action" value="login">Login</button>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
 
             <div class="text-center mt-3">
-                <a href="<%= request.getContextPath() %>/jsp/creerCompte1.jsp">Nouveau : Creer un compte</a>
+                <a href="user?action=inscription">Nouveau : Creer un compte</a>
             </div>
         </form>
     </div>
