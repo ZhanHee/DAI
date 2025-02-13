@@ -22,12 +22,12 @@ import static dao.ProduitDao.findById;
 @WebServlet("/Panier")
 public class ClientController extends HttpServlet {
 
-    // 显示购物车页面(1.3查看购物车） +  清空购物车
+    // 显示购物车页面 + 清空购物车
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         int idUser = Integer.parseInt(request.getSession().getAttribute("idUser").toString());
 
-        try{
+        try {
             switch (action) {
                 case "affichePanier":
                     // 展示用户的购物车内容
@@ -71,7 +71,7 @@ public class ClientController extends HttpServlet {
         String action = request.getParameter("action");
         int idUser = Integer.parseInt(request.getSession().getAttribute("idUser").toString());
 
-        try{
+        try {
             switch (action) {
                 case "addProduit":
                     // 添加商品到购物车
