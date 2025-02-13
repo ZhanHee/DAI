@@ -47,10 +47,11 @@
                               categorie_chercher_int = Integer.parseInt(categorie_chercher);
                           }
 
+                          if (liste_produit != null) {
+                              for (Produit le_produit : liste_produit) {
+                                  if (le_produit.getLibellePro().toLowerCase().contains(recherche)) {
+                                      if (categorie_chercher_int == le_produit.getCategorie().getIdCtg() || categorie_chercher_int == 0) {
 
-                          for (Produit le_produit : liste_produit) {
-                              if (le_produit.getLibellePro().toLowerCase().contains(recherche)) {
-                                  if (categorie_chercher_int == le_produit.getCategorie().getIdCtg()|| categorie_chercher_int == 0) {
                       %>
                       <div class="col">
                           <div class="product-item card shadow-sm h-100">
@@ -82,8 +83,12 @@
                           </div>
                       </div>
                       <%
+                                    }
+                                 }
                               }
-                          }
+                          } else {
+                             // Handle the case when liste_produit is null
+                             out.println("Aucune donnée de produit disponible.");
                           }
                       %>
                       <!-- Fin de la boucle -->
