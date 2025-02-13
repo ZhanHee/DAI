@@ -13,8 +13,10 @@
           <%
             HashMap<Produit, Integer> panier = (HashMap<Produit, Integer>) request.getAttribute("panier_utilisateur");
             int totalArticles = 0;
-            for (HashMap.Entry<Produit, Integer> entry : panier.entrySet()) {
-              totalArticles += entry.getValue();
+            if (panier != null) {
+                for (HashMap.Entry<Produit, Integer> entry : panier.entrySet()) {
+                    totalArticles += entry.getValue();
+                }
             }
           %>
           <%= totalArticles %>
